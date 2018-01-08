@@ -14,7 +14,7 @@ class Tools
   end
 
 
-  def psuedo_element_generator(num_to_generate, balance_factors)
+  def dummy_element_generator(num_to_generate, balance_factors)
     # if @balance_factors == nil
     #   raise RuntimeError, "Cannot generate Elements because Tool's @balance_factors var not set."
     # end
@@ -37,14 +37,23 @@ class Tools
   end
 
   #partition_names is a list of String names
-  def psuedo_partition_generator(partition_names)
+  def partition_generator(partition_names)
     list_of_partitions = []
     for partition_name in partition_names
-      partition = Partition.new()
-      list_of_partitions.push()
+      partition = Partition.new(partition_name)
+      list_of_partitions.push(partition)
     end
-
+    list_of_partitions
   end
+
+  # def dummy_partition_generator(partition_names)
+  #   list_of_partitions = []
+  #   for partition_name in partition_names
+  #     partition = Partition.new(partition_name)
+  #     list_of_partitions.push()
+  #   end
+  #   list_of_partitions
+  # end
 end
 
 
@@ -175,6 +184,7 @@ class Organization
   #balance_factors is a dictionary. Key = String property. Value = list of String property characteristics.
   #partitions is a list of Partitions
   def initialize(name, members, partitions, balance_factors)
+    # @members is a dictionary that maps member id to member Element.
     @members = {}
     if members != nil
       for member in members
@@ -212,8 +222,16 @@ class Organization
       @characteristic_ratios[key] = @characteristic_frequencies[key].to_f/total.to_f
     end
 
+    @partitions = {}
+    if partitions != nil
+      for partition in partitions
+        @partitions[partition.name] = partition
+      end
+    end
 
-    puts @characteristic_ratios
+
+
+    # puts @characteristic_ratios
 
 
 
@@ -256,6 +274,12 @@ class Organization
     
   end
   
+  
+
+
+
+
+
   #Ask about: rudundant add_members code in Partition and Organization
   def add_members(members)
     
@@ -295,7 +319,6 @@ class Organization
       end
     end
   end
-
 
 
 
@@ -356,9 +379,9 @@ balance_factors = {"gender": ["male", "female", "other"], "year": ["freshman", "
 puts "***testing Tools***"
 tool = Tools.new()
 tool.balance_factors = balance_factors
-members = tool.psuedo_element_generator(10, balance_factors)
+members = tool.dummy_element_generator(10, balance_factors)
 partition_names = ["AFX ANTHM", "AFX EQ", "AFX Bangzi", "AFX Bae", "AFX SoloQ", "AFX Apocalyse", "AFX 404"]
-
+partitions = tool.partition_generator(partition_names)
 
 
 attributes_1 = {"name": "Bob", "gender": "male", "year": "freshman", "ethnicity": "asian", "socioeconomic group": "middle class"}
@@ -415,8 +438,13 @@ puts "***testing Organization***"
 # members = [dancer_1, dancer_2]
 # balance_factors = {"gender": ["male", "female", "other"], "year": ["freshman", "sophomore", "junior", "senior"]}
 org = Organization.new("AFX", members, partitions, balance_factors)
-puts org.characteristic_frequencies
 
+puts org.partitions
+AFX_EQ = org.partitions["AFX EQ"]
+puts AFX_EQ
+
+
+#should we always calculate a new balance score
 
 
 
