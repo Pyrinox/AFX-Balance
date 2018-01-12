@@ -1,5 +1,5 @@
 # AFX-Balance
-*<b> WARNING: WORK IN PROGRESS. </b>* \
+*<b> WORK IN PROGRESS. </b>* \
 This gem should eventually contain a host of methods useful to the planning of logistics for large organizations.
 AFX-Balance as of now is a experimental proto-gem to be used in scenarios where there exists a large population of objects (with attributes) that need to be fairly divided into specific partitions. More functionality to be added.
 
